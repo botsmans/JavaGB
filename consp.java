@@ -1126,7 +1126,56 @@ public class Main{
 }
 
 #SWING
+public class MyWindow extends JFrame {//обязательно должен быть унаследован от JFrame
+    public MyWindow(){
+        setBounds(200, 200, 500, 500);//позиция и размер окна
+        setTitel("MyWindow");//заголовок окна
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);//при нажатии крестика закроется окно и остановится программа
 
+        //setLayout(new BorderLayout());//по умолчанию
+        //setLayout(new FlowLayout());//FlowLayout - элементы распологаются подряд
+        //setLayout(new GridLayout(2, 2));//табличный, 2 столбца и строки
+
+        JPanel sPanel = new JPanel(new FridLayout(1, 2));
+
+
+        JTexArea textArea = new JTextArea();//create text area
+        add(textArea, BorderLayout.CENTER);//add text area, закрепляя по центру 
+
+        JButton btn1 = new JButton("кнопка1");//create button
+        sPanel.add(btn1);//add button in sPanel
+        btn1.setPrefferedSize(new Dimension(1, 100))//1-ширина(без разницы размер), 100 - высота
+
+        btn1.addActionListener(new ActionListener() {//подключение слушателя к btn1
+            @Override
+            public void actionPerformed(ActionEvent e){
+                sout("press btn1");//output to console
+                textArea.appand("press btn1\n");//вывод в textArea
+            }
+        }) 
+
+        JButton btn2 = new JButton("Exit");//create button
+        sPanel.add(btn2);//add button in sPanel
+
+        btn2.addActionListener(new ActionListener() {//подключение слушателя к btn1
+                    @Override
+                    public void actionPerformed(ActionEvent e){
+                        System.exit(0);//exit to programm
+                    }
+                }) 
+
+        add(sPanel, BorderLayout.SOUTH);//add sPanel to down
+
+        setVisible(true);//показать экран
+
+        
+    }
+}
+public class Main{
+    psvm(){
+        new MyWindow();
+    }
+}
 
 #COLLECTOIONS
 
