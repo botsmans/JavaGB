@@ -580,8 +580,8 @@ import lesson1.Cat // если в одном пакете можно не имп
 
 lesson1.Cat// можно писать прямо в коде без импорта или если Cat уже есть в данном пакете 
 
-#THIS in Method
-//когда имя параметра и имя переменной класа совпадают пишут this. this.width - переменная класса, width - параметр, this.width = width - присвоение переменной параметра
+#THIS
+//когда имя параметра и имя переменной класа совпадают пишут this. this.width - переменная класса, width - параметр, this.width = width - присвоение переменной параметра. This нужен так как область видимости метода/конструктора перекрывает имя класа именем параметра
 public class Box {
     double width;
     double height;
@@ -962,6 +962,7 @@ public class Cat extendens Animal{//extended - наследовать(расши
     public Cat(String name, int age, int liveCount){
         super(name);
         this.age = age;//так же будет обращение к родительскому классу 
+        //super.info();//так можно вызывать методы родительского класса
         this.liveCount = liveCount; //это поле есть только у дочернего класса
     }
     @Override
@@ -1126,57 +1127,215 @@ public class Main{
 }
 
 #SWING
-public class MyWindow extends JFrame {//обязательно должен быть унаследован от JFrame
-    public MyWindow(){
-        setBounds(200, 200, 500, 500);//позиция и размер окна
-        setTitel("MyWindow");//заголовок окна
+
+public class GameWindow extends JFrame {//обязательно должен быть унаследован от JFrame
+    private static final int WIN_HEIGHT = 555;
+    private static final int WIN_WIDTH = 505;
+    private static final int WIN_POS_X = 500;
+    private static final int WIN_POS_Y = 500;
+
+    StartNewGameWindow startNewGameWindow;
+
+
+    public GameWindow(){
+        setBounds(WIN_POS_X, WIN_POS_Y, WIN_WIDTH, WIN_HEIGHT);//позиция и размер окна
+        setTitel("GameWindow");//заголовок окна
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);//при нажатии крестика закроется окно и остановится программа
 
         //setLayout(new BorderLayout());//по умолчанию
         //setLayout(new FlowLayout());//FlowLayout - элементы распологаются подряд
         //setLayout(new GridLayout(2, 2));//табличный, 2 столбца и строки
 
-        JPanel sPanel = new JPanel(new FridLayout(1, 2));
+        JPanel jPanel = new JPanel(new GridLayout(1, 2));
 
 
-        JTexArea textArea = new JTextArea();//create text area
-        add(textArea, BorderLayout.CENTER);//add text area, закрепляя по центру 
+        //JTexArea textArea = new JTextArea();//create text area
+        //add(textArea, BorderLayout.CENTER);//add text area, закрепляя по центру 
 
-        JButton btn1 = new JButton("кнопка1");//create button
-        sPanel.add(btn1);//add button in sPanel
-        btn1.setPrefferedSize(new Dimension(1, 100))//1-ширина(без разницы размер), 100 - высота
+        JButton btnNewGame = new JButton("Start New Game");//create button
+        jPanel.add(btnNewGame);//add button in jPanel
+        btnNewGame.setPrefferedSize(new Dimension(1, 100))//1-ширина(без разницы размер), 100 - высота
 
-        btn1.addActionListener(new ActionListener() {//подключение слушателя к btn1
-            @Override
-            public void actionPerformed(ActionEvent e){
-                sout("press btn1");//output to console
-                textArea.appand("press btn1\n");//вывод в textArea
-            }
-        }) 
+        
 
-        JButton btn2 = new JButton("Exit");//create button
-        sPanel.add(btn2);//add button in sPanel
+        JButton btnExit = new JButton("Exit game");//create button
+        jPanel.add(btnExit);//add button in jPanel
 
-        btn2.addActionListener(new ActionListener() {//подключение слушателя к btn1
+        startNewGameWindow = new StartNewGameWindow(this);
+
+
+        btnExit.addActionListener(new ActionListener() {//подключение слушателя к btnExit
                     @Override
                     public void actionPerformed(ActionEvent e){
                         System.exit(0);//exit to programm
                     }
                 }) 
 
-        add(sPanel, BorderLayout.SOUTH);//add sPanel to down
+        btnNewGame.addActionListener(new ActionListener() {//подключение слушателя к btnNewGame
+            @Override
+            public void actionPerformed(ActionEvent e){
+                //sout("press btnNewGame");//output to console
+                //textArea.appand("press btnNewGame\n");//вывод в textArea
+                startNewGameWindow.setVisible(true);
+            }
+        }) 
+
+
+        add(jPanel, BorderLayout.SOUTH);//add jPanel to down
+
+
+
+
 
         setVisible(true);//показать экран
 
         
     }
 }
-public class Main{
-    psvm(){
-        new MyWindow();
+
+public class StartNewGameWindow extends JFrame{
+    private final GameWindow gameWindow;
+
+    public StartNewGameWindow(GameWindow gameWindow){
+        this.gameWindow = gameWindow;
+        setVisible = false;
     }
 }
 
+public class Main{
+    psvm(){
+        new GameWindow();
+    }
+}
+
+#INTERFACE
+//говорит какие методы должны быть, но в нем нет реализации самих методов. *Если подписать default перед методом, то можно реализацию добавить.
+public interface CanRun {
+    void run(int dist);
+}
+
+public interface {
+    void jump(int height);
+    default void bigJump(int height){//bigJump переопределять не нужно
+        sout("bigJump...")
+    }
+}
+
+public class Cat implements CanRun, CanJump{//будет ругаться пока не будет добавлен метод. По этому нажимаем Override
+    @Override
+    public void run(int dist){
+        sout("run...")
+    }
+
+    @Override
+    public void jump(int height){
+        sout("jump ...")
+
+    }
+}
+
+public interface ActionGo extendens CanJump, CanRun {//когда интерфейс наследуется от других интерфейсов, наследуемые от него классы должны содержать методы всех интерфейсов
+    void swim(int dist);
+}
+
+public class Dog implements ActionGo{
+    @Override
+    public void run(int dist){
+        sout("run...")
+    }
+
+    @Override
+    public void jump(int height){
+        sout("jump ...")
+
+    @Override
+    public void swim(int height){
+        sout("swim ...")    
+}
+
+public class main{
+    psvm(){
+        Cat.cat = new Cat();
+        cat.bigJump(6);
+    }
+}
+
+#ENUM перечисления
+//перечисление значений
+//статические по этому new писать не нужно
+public enum Fruit {
+    ORANGE, APPLE, BANNANA, CHERY;
+}
+
+public class Main {
+    psvm(){
+        Fruit fruit = Fruit.APPLE; //fruit му можем присвоить только то что есть в Fruit
+        //добавлять новые значения во Fruit тоже нльзя
+        sout(fruit);//APPLE
+        for (Fruit f:Fruit.values()) {
+            sout(f.ordinal()+" ");//show position
+            sout(f.name());//show value
+            sout(f == Fruit.APPLE);
+            sout(f.price);
+        }
+    }
+}
+
+#можно добавить параметры
+public enum Fruit {
+    ORANGE(5), APPLE(7), BANNANA(9), CHERY(8);
+    int price;
+
+    Fruit(int price) {
+        this.price = price;
+    }
+    Fruin(){
+        this.price = price;
+    }
+
+}
+
+#ВНУТРЕННИЕ , ВЛОЖЕННЫЕ(статик) и ЛОКАЛЬНЫЕ КЛАССЫ
+//для внешних ничего не доступно, для внутренних доступно всё
+public class Outer {
+    private int outX = 8;
+    private static int outY = 9;
+
+    class Inner {
+        private int inX = 10;
+
+        public void info(){
+            sout(outX);
+            sout(inX);
+        }
+    }
+
+    static class StatInner{//вложенный класс  (статик) классы могут вызвать только статик переменные
+        public void info(){
+            sout(outY);
+        }
+    }
+
+    public void someThing(){
+        int someX=7;
+
+        class LocalClass{//локальный класс
+            public void info(){
+                sout(outX);
+                sout(someX);
+            }
+        }
+        new LocalClass().info();
+    }
+}
+public class Main {
+    psvm(){
+        Outer.Inner inner = new Outer.new Inner();//так можно создать экземпляр внутреннего коласса
+        inner.info();
+
+        Outer outer = new Outer();
+        outer.someThing();//print outX and someX
+    }
 #COLLECTOIONS
 
 #ARRAYLIST //по простому
