@@ -580,8 +580,8 @@ import lesson1.Cat // если в одном пакете можно не имп
 
 lesson1.Cat// можно писать прямо в коде без импорта или если Cat уже есть в данном пакете 
 
-#THIS in Method
-//когда имя параметра и имя переменной класа совпадают пишут this. this.width - переменная класса, width - параметр, this.width = width - присвоение переменной параметра
+#THIS
+//когда имя параметра и имя переменной класа совпадают пишут this. this.width - переменная класса, width - параметр, this.width = width - присвоение переменной параметра. This нужен так как область видимости метода/конструктора перекрывает имя класа именем параметра
 public class Box {
     double width;
     double height;
@@ -1126,54 +1126,84 @@ public class Main{
 }
 
 #SWING
-public class MyWindow extends JFrame {//обязательно должен быть унаследован от JFrame
-    public MyWindow(){
-        setBounds(200, 200, 500, 500);//позиция и размер окна
-        setTitel("MyWindow");//заголовок окна
+
+public class GameWindow extends JFrame {//обязательно должен быть унаследован от JFrame
+    private static final int WIN_HEIGHT = 555;
+    private static final int WIN_WIDTH = 505;
+    private static final int WIN_POS_X = 500;
+    private static final int WIN_POS_Y = 500;
+
+    StartNewGameWindow startNewGameWindow;
+
+
+    public GameWindow(){
+        setBounds(WIN_POS_X, WIN_POS_Y, WIN_WIDTH, WIN_HEIGHT);//позиция и размер окна
+        setTitel("GameWindow");//заголовок окна
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);//при нажатии крестика закроется окно и остановится программа
 
         //setLayout(new BorderLayout());//по умолчанию
         //setLayout(new FlowLayout());//FlowLayout - элементы распологаются подряд
         //setLayout(new GridLayout(2, 2));//табличный, 2 столбца и строки
 
-        JPanel sPanel = new JPanel(new FridLayout(1, 2));
+        JPanel jPanel = new JPanel(new GridLayout(1, 2));
 
 
-        JTexArea textArea = new JTextArea();//create text area
-        add(textArea, BorderLayout.CENTER);//add text area, закрепляя по центру 
+        //JTexArea textArea = new JTextArea();//create text area
+        //add(textArea, BorderLayout.CENTER);//add text area, закрепляя по центру 
 
-        JButton btn1 = new JButton("кнопка1");//create button
-        sPanel.add(btn1);//add button in sPanel
-        btn1.setPrefferedSize(new Dimension(1, 100))//1-ширина(без разницы размер), 100 - высота
+        JButton btnNewGame = new JButton("Start New Game");//create button
+        jPanel.add(btnNewGame);//add button in jPanel
+        btnNewGame.setPrefferedSize(new Dimension(1, 100))//1-ширина(без разницы размер), 100 - высота
 
-        btn1.addActionListener(new ActionListener() {//подключение слушателя к btn1
-            @Override
-            public void actionPerformed(ActionEvent e){
-                sout("press btn1");//output to console
-                textArea.appand("press btn1\n");//вывод в textArea
-            }
-        }) 
+        
 
-        JButton btn2 = new JButton("Exit");//create button
-        sPanel.add(btn2);//add button in sPanel
+        JButton btnExit = new JButton("Exit game");//create button
+        jPanel.add(btnExit);//add button in jPanel
 
-        btn2.addActionListener(new ActionListener() {//подключение слушателя к btn1
+        startNewGameWindow = new StartNewGameWindow(this);
+
+
+        btnExit.addActionListener(new ActionListener() {//подключение слушателя к btnExit
                     @Override
                     public void actionPerformed(ActionEvent e){
                         System.exit(0);//exit to programm
                     }
                 }) 
 
-        add(sPanel, BorderLayout.SOUTH);//add sPanel to down
+        btnNewGame.addActionListener(new ActionListener() {//подключение слушателя к btnNewGame
+            @Override
+            public void actionPerformed(ActionEvent e){
+                //sout("press btnNewGame");//output to console
+                //textArea.appand("press btnNewGame\n");//вывод в textArea
+                startNewGameWindow.setVisible(true);
+            }
+        }) 
+
+
+        add(jPanel, BorderLayout.SOUTH);//add jPanel to down
+
+
+
+
 
         setVisible(true);//показать экран
 
         
     }
 }
+
+public class StartNewGameWindow extends JFrame{
+    private final GameWindow gameWindow;
+
+    public StartNewGameWindow(GameWindow gameWindow){
+        this.gameWindow = gameWindow;
+        setVisible = false;
+    }
+}
+
 public class Main{
     psvm(){
-        new MyWindow();
+        new GameWindow();
     }
 }
 
