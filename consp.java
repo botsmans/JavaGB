@@ -580,8 +580,8 @@ import lesson1.Cat // если в одном пакете можно не имп
 
 lesson1.Cat// можно писать прямо в коде без импорта или если Cat уже есть в данном пакете 
 
-#THIS
-//когда имя параметра и имя переменной класа совпадают пишут this. this.width - переменная класса, width - параметр, this.width = width - присвоение переменной параметра. This нужен так как область видимости метода/конструктора перекрывает имя класа именем параметра
+#THIS in Method
+//когда имя параметра и имя переменной класа совпадают пишут this. this.width - переменная класса, width - параметр, this.width = width - присвоение переменной параметра
 public class Box {
     double width;
     double height;
@@ -962,7 +962,6 @@ public class Cat extendens Animal{//extended - наследовать(расши
     public Cat(String name, int age, int liveCount){
         super(name);
         this.age = age;//так же будет обращение к родительскому классу 
-        //super.info();//так можно вызывать методы родительского класса
         this.liveCount = liveCount; //это поле есть только у дочернего класса
     }
     @Override
@@ -1150,13 +1149,13 @@ public class GameWindow extends JFrame {//обязательно должен б
 
 
         //JTexArea textArea = new JTextArea();//create text area
-        //add(textArea, BorderLayout.CENTER);//add text area, закрепляя по центру 
+        //add(textArea, BorderLayout.CENTER);//add text area, закрепляя по центру
 
         JButton btnNewGame = new JButton("Start New Game");//create button
         jPanel.add(btnNewGame);//add button in jPanel
         btnNewGame.setPrefferedSize(new Dimension(1, 100))//1-ширина(без разницы размер), 100 - высота
 
-        
+
 
         JButton btnExit = new JButton("Exit game");//create button
         jPanel.add(btnExit);//add button in jPanel
@@ -1169,7 +1168,7 @@ public class GameWindow extends JFrame {//обязательно должен б
                     public void actionPerformed(ActionEvent e){
                         System.exit(0);//exit to programm
                     }
-                }) 
+                })
 
         btnNewGame.addActionListener(new ActionListener() {//подключение слушателя к btnNewGame
             @Override
@@ -1178,7 +1177,7 @@ public class GameWindow extends JFrame {//обязательно должен б
                 //textArea.appand("press btnNewGame\n");//вывод в textArea
                 startNewGameWindow.setVisible(true);
             }
-        }) 
+        })
 
 
         add(jPanel, BorderLayout.SOUTH);//add jPanel to down
@@ -1208,134 +1207,6 @@ public class Main{
     }
 }
 
-#INTERFACE
-//говорит какие методы должны быть, но в нем нет реализации самих методов. *Если подписать default перед методом, то можно реализацию добавить.
-public interface CanRun {
-    void run(int dist);
-}
-
-public interface {
-    void jump(int height);
-    default void bigJump(int height){//bigJump переопределять не нужно
-        sout("bigJump...")
-    }
-}
-
-public class Cat implements CanRun, CanJump{//будет ругаться пока не будет добавлен метод. По этому нажимаем Override
-    @Override
-    public void run(int dist){
-        sout("run...")
-    }
-
-    @Override
-    public void jump(int height){
-        sout("jump ...")
-
-    }
-}
-
-public interface ActionGo extendens CanJump, CanRun {//когда интерфейс наследуется от других интерфейсов, наследуемые от него классы должны содержать методы всех интерфейсов
-    void swim(int dist);
-}
-
-public class Dog implements ActionGo{
-    @Override
-    public void run(int dist){
-        sout("run...")
-    }
-
-    @Override
-    public void jump(int height){
-        sout("jump ...")
-
-    @Override
-    public void swim(int height){
-        sout("swim ...")    
-}
-
-public class main{
-    psvm(){
-        Cat.cat = new Cat();
-        cat.bigJump(6);
-    }
-}
-
-#ENUM перечисления
-//перечисление значений
-//статические по этому new писать не нужно
-public enum Fruit {
-    ORANGE, APPLE, BANNANA, CHERY;
-}
-
-public class Main {
-    psvm(){
-        Fruit fruit = Fruit.APPLE; //fruit му можем присвоить только то что есть в Fruit
-        //добавлять новые значения во Fruit тоже нльзя
-        sout(fruit);//APPLE
-        for (Fruit f:Fruit.values()) {
-            sout(f.ordinal()+" ");//show position
-            sout(f.name());//show value
-            sout(f == Fruit.APPLE);
-            sout(f.price);
-        }
-    }
-}
-
-#можно добавить параметры
-public enum Fruit {
-    ORANGE(5), APPLE(7), BANNANA(9), CHERY(8);
-    int price;
-
-    Fruit(int price) {
-        this.price = price;
-    }
-    Fruin(){
-        this.price = price;
-    }
-
-}
-
-#ВНУТРЕННИЕ , ВЛОЖЕННЫЕ(статик) и ЛОКАЛЬНЫЕ КЛАССЫ
-//для внешних ничего не доступно, для внутренних доступно всё
-public class Outer {
-    private int outX = 8;
-    private static int outY = 9;
-
-    class Inner {
-        private int inX = 10;
-
-        public void info(){
-            sout(outX);
-            sout(inX);
-        }
-    }
-
-    static class StatInner{//вложенный класс  (статик) классы могут вызвать только статик переменные
-        public void info(){
-            sout(outY);
-        }
-    }
-
-    public void someThing(){
-        int someX=7;
-
-        class LocalClass{//локальный класс
-            public void info(){
-                sout(outX);
-                sout(someX);
-            }
-        }
-        new LocalClass().info();
-    }
-}
-public class Main {
-    psvm(){
-        Outer.Inner inner = new Outer.new Inner();//так можно создать экземпляр внутреннего коласса
-        inner.info();
-
-        Outer outer = new Outer();
-        outer.someThing();//print outX and someX
-    }
 #COLLECTOIONS
 
 #ARRAYLIST //по простому
