@@ -580,7 +580,9 @@ import lesson1.Cat // если в одном пакете можно не имп
 
 lesson1.Cat// можно писать прямо в коде без импорта или если Cat уже есть в данном пакете 
 
-#THIS in Method
+#THIS
+//this - указатель на текущий объект
+//так как в методе/конструкторе имя входящей переменной перекрывает имя параметра класса
 //когда имя параметра и имя переменной класа совпадают пишут this. this.width - переменная класса, width - параметр, this.width = width - присвоение переменной параметра
 public class Box {
     double width;
@@ -718,6 +720,21 @@ public class Main {
         System.out.println(resultInt+" "+resultDouble+" "+resultQuadro);
     }
 }
+#если параметры одинаковые то будет выведет первым по порядку добавления в Java
+    int a = 5;
+    int b = 7;
+    testInfo(a, b);//2
+
+    void testInfo(int... a){
+        sout(1);
+    }
+
+    void testInfo(long a, long b){
+        sout(2)
+    }
+    void testInfo(Integer a, Integer b){
+        sout(3)
+    }
 
 #Перегрузка constructors
 public class Box {
@@ -803,6 +820,8 @@ public class Main {
 }
 
 #STATIC
+//означает что метод относится не к экземпляру класса а ко всему классу
+//static method нельзя переопределять
 public class Box {
     double width;
     double height;
@@ -951,7 +970,7 @@ import test.Man
 public class Cat extendens Animal{//extended - наследовать(расширение)
     int liveCount;//этой переменной нет
     public Cat(){//пустой конструктор
-        super();//supes - означает родительский класс//для пустых конструкторов(тоесть для данного случая эту строку можно не писать)
+        super();//supes - означает родительский класс(тоже самое что и this но указывает на объект суперкласса)//для пустых конструкторов(тоесть для данного случая эту строку можно не писать)
         //super работает только внутри конструкторов
         //super работает так же как this но ведет к суперклассу
     }
@@ -1207,6 +1226,58 @@ public class Main{
     }
 }
 
+#INTERFACE
+//определяет какие методы должны быть, но не определяет как они должны быть реализованы (c версии 1.8 разрешает реализовывать)
+//методы в классах наследниках должны быть переопределены иначе будет ругаться
+//полиморфзм - один интерфейс, множество реализаций (у всех дочерних классов вызывается один итот же метод)
+//Interface - cоздан для того что бы не создавать метод у родительского класса, так как не для всех дочерних классов он должен работать
+//интерфейс по своей сути является абстрактным классом у которого нет полей, а есть только методы которые обязательно
+public interface CanRun {
+    void run(int dist);
+}
+
+public interface CanJump {
+    void jump(int height);
+    default void superJump(int height){//default - реализация прямо в интерфейсе
+        sout("jump")
+    }
+}
+
+public interface ActionGo extends CanJump, CanRun {//интерфейсы могут наследоваться от других интерфейсов
+    int height = 5; //у интерфейсов могут быть классы, но они должны быть проинициализированы
+    void swim(int dist);
+}
+
+public class Cat implements CanRun, CanJump{//implements - наследование от интерфейса
+}
+
+    @Override void run(int dist){
+    }
+    @Override void jump(int height){
+    }
+
+public class Dog implements{
+
+
+    @Override void run(int dist){
+    }
+    @Override void jump(int height){
+    }
+    @Override void superJump(int height){
+    }
+    @Override void swim(int dist){
+    }
+}
+
+public class Main{
+    msvm{
+        Cat cat = new Cat();
+        cat.run(5);
+        cat.jump(6);
+        cat.superJump(8);
+    }
+}
+
 #COLLECTOIONS
 
 #ARRAYLIST //по простому
@@ -1420,108 +1491,8 @@ public class Main {
 
 
 
-#INTERFACE
-//полиморфзм - один интерфейс, множество реализаций (у всех дочерних классов вызывается один итот же метод)
-
-public class Main {
-    public static void main(String[] args) {
-        Dog dog = new Dog();
-        Cat cat = new Cat();
-        Bird bird = new Bird();
-        Fish fish = new Fish();
-        Animal animal = new Cat();//приведение дочерненго типа к родительскому (или Up cast)
-        // так можно создавать объекты у абстрактных классов
-        ArrayList<Animal> animals = new ArrayList<>();//becouse Animal is super class we cat add subcla
-        animals.add(dog);
-        animals.add(cat);
-        animals.add(bird);
-        animals.add(fish);
-        animals.add(animal);
-        for (Animal object : animals) {
-            object.eat();
-        }
-        Dog dog1 = new Dog();
-        dog1.run();
-        Animal animal1 = dog1;//Up cast обьект собака1 привели к родительскому типу9
-        animal1.eat();
-        dog1 = (Dog) animal1;//Down cast приведение животного1 к типу собака// после чего можно использовать методы собаки
-        //которых нет в родительском классе
-        dog1.run();
 
 
-    }
-}
-
-//перенос объекта к сестренскому классу выдаст ошибку при компиляции.
-Cat cat2 = new Cat();
-Animal animal2 = cat2;
-Dog dog2 = (Dog) animal2;
-
-//Interface - cоздан для того что бы не создавать метод у родительского класса, так как не для всех дочерних классов
-//он должен работать
-//интерфейс по своей сути является абстрактным классом у которого нет полей, а есть только методы которые обязательно
-//нужно переопределть у класса в который мы добавили интерфейс или интерфейсы.
-
-public interface CanRun {//create interface
-    void run(); //method for interface
-}
-public class Cat extends Animal implements CanRun{ //implements - add interface for animal who can run
-    @Override
-    public void eat() {
-        System.out.println("Wiskas");
-    }
-    public void run(){
-        System.out.println("cat is running");
-    }
-}
-public class Main {
-    public static void main(String[] args) {
-        Dog dog = new Dog();
-        Cat cat = new Cat();
-        ArrayList<CanRun> animals = new ArrayList<>();//may can arraylist with interface who heve CanRun
-        animals.add(cat);
-        animals.add(dog);
-        for (CanRun animal : animals) {
-            animal.run();
-        }
-    }
-}
-
-#Example INTERFACE
-public interface Cookable {
-    void cook();
-}
-public class Cooker implements Cookable{
-    @Override
-    public void cook() {
-        System.out.println("I am cooking");
-    }
-}
-public class Director {
-    public void force(Cookable cookable){
-        cookable.cook();
-    }
-}
-public class Main {
-    public static void main(String[] args) {
-        Director director = new Director();
-        Cooker cooker = new Cooker();
-        director.force(cooker);
-    }
-}
-//если клас у нас используется один раз то можно создать анонимный класс(класс у которого нет имени)
-//(мы не создаем класс Cooker, а пишем реализацию метода сразу)
-public class Main {
-    public static void main(String[] args) {
-        Director director = new Director();
-        director.force(new Cookable() {//создание анонимного класса new InterfaceName//ниже реализация класса
-            @Override
-            public void cook() {
-                System.out.println("I am cooking");
-            }
-        });
-    }
-}
 #TRY CATCH FINALLY EXCEPTIONS
 public class Main {
     public static void main(String[] args) {
