@@ -471,6 +471,11 @@ array.length // length of array
 Сat[] cats = new Cat[3];
 cats[0].name; //если объект не проинициализирован, то обращение к его методам или переменным вызовет ошибку. //cats[0].name = "Mursik" 
 
+#*если мы хотим передовать массив в параметр
+public Team(String name, Competitor[] competitors)//нужно будет передавать new Competitor[4]
+public Team(String name, Competitor... competitors)//нужно будет передавать new Human("bobi"), new Cat("Mursik"), new Dog("Sharik"), new Human("tomi")
+
+
 #CLASS and CLASS INSTANCE - OBJECT
 class - набор свойств // name of classes capitalized(пишутся с большой буквы)
 object is instance of class - объект - экземпляр класса - это что то конкретное созданное на основе класса
@@ -1277,6 +1282,84 @@ public class Main{
         cat.superJump(8);
     }
 }
+
+
+#ENUM перечисления
+//перечисление значений
+//статические по этому new писать не нужно
+public enum Fruit {
+    ORANGE, APPLE, BANNANA, CHERY;
+}
+
+public class Main {
+    psvm(){
+        Fruit fruit = Fruit.APPLE; //fruit му можем присвоить только то что есть в Fruit
+        //добавлять новые значения во Fruit тоже нльзя
+        sout(fruit);//APPLE
+        for (Fruit f:Fruit.values()) {
+            sout(f.ordinal()+" ");//show position
+            sout(f.name());//show value
+            sout(f == Fruit.APPLE);
+            sout(f.price);
+        }
+    }
+}
+
+#можно добавить параметры
+public enum Fruit {
+    ORANGE(5), APPLE(7), BANNANA(9), CHERY(8);
+    int price;
+
+    Fruit(int price) {
+        this.price = price;
+    }
+    Fruin(){
+        this.price = price;
+    }
+
+}
+
+#ВНУТРЕННИЕ , ВЛОЖЕННЫЕ(статик) и ЛОКАЛЬНЫЕ КЛАССЫ
+//для внешних ничего не доступно, для внутренних доступно всё
+public class Outer {
+    private int outX = 8;
+    private static int outY = 9;
+
+    class Inner {
+        private int inX = 10;
+
+        public void info(){
+            sout(outX);
+            sout(inX);
+        }
+    }
+
+    static class StatInner{//вложенный класс  (статик) классы могут вызвать только статик переменные
+        public void info(){
+            sout(outY);
+        }
+    }
+
+    public void someThing(){
+        int someX=7;
+
+        class LocalClass{//локальный класс находиться внутру какого либо метода или кодового блока
+            public void info(){
+                sout(outX);
+                sout(someX);
+            }
+        }
+        new LocalClass().info();
+    }
+}
+public class Main {
+    psvm(){
+        Outer.Inner inner = new Outer.new Inner();//так можно создать экземпляр внутреннего коласса
+        inner.info();
+
+        Outer outer = new Outer();
+        outer.someThing();//print outX and someX//таким образом к локальному классу есть доступ
+    }
 
 #COLLECTOIONS
 
