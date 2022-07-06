@@ -1,10 +1,7 @@
 package Java2.L1.marathon;
 
 import Java2.L1.marathon.competitors.*;
-import Java2.L1.marathon.obstacles.Cross;
-import Java2.L1.marathon.obstacles.Obstacle;
-import Java2.L1.marathon.obstacles.Wall;
-import Java2.L1.marathon.obstacles.Water;
+import Java2.L1.marathon.obstacles.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -26,6 +23,8 @@ public class Main {
         }
 
         Team team = new Team("teamName", new Human("bobi"), new Cat("Mursik"), new Dog("Sharik"), new Human("tomi"));
-
+        Course course = new Course(new Water(5), new Cross(2), new Wall(2));
+        course.doIt(team);
+        team.showWinners();
     }
 }

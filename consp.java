@@ -1283,6 +1283,19 @@ public class Main{
     }
 }
 
+#массивы из интерфейсов //можно делать массивы из интерфейсов в которые вписаны объекты у которых есть данный интерфейс
+public class Human implements Competitor {
+    String name;
+
+public class Сфе implements Competitor {
+    String name;
+
+public interface Competitor {
+    void run(int dist);
+public class Main {
+    public static void main(String[] args) {
+        Competitor[] competitors={new Human("Bob"),
+        new Cat("Vaska")}
 
 #ENUM перечисления
 //перечисление значений

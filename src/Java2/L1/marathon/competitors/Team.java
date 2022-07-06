@@ -9,4 +9,15 @@ public class Team {
         this.competitors = competitors;
 
     }
+    public void showWinners(){
+        for (Competitor c: competitors){
+            if(c.isOnDistance()){
+                c.info();
+            }
+        }
+    }
+
+    public Competitor[] getCompetitors() {
+        return competitors;
+    }
 }
