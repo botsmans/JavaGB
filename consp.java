@@ -1465,7 +1465,7 @@ public class FactorialException extends Exception {
 public class Main{
     psvm(){
         try{
-            fact(5);//если эту строку напечатать без try catch то будет ругаться и предлагать Alt+Enter где можно выбрать try catch так как в методе есть throw c exception
+            sout(fact(5));//если эту строку напечатать без try catch то будет ругаться и предлагать Alt+Enter где можно выбрать try catch так как в методе есть throw c exception
         }catch(FactorialException e){
             sout(e.getNumber)//также можем выводить параметры 
             e.printStackTrace
@@ -1473,13 +1473,13 @@ public class Main{
 
 
     }
-    public static int fact(int n){  
-        if(n < 1){
-            throw new FactorialException("Значение меньше нуля")
+    public static int fact(int n) throws FactorialException {
+        if (n < 1) {
+            throw new FactorialException("Значение меньше 0", n);
         }
         int f = 1;
-        for (int i = 1; i< n; i++){
-            f*=i;
+        for (int i = 1; i <= n; i++) {
+            f *= i;
         }
         return f;
     }
