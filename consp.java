@@ -1374,6 +1374,140 @@ public class Main {
         outer.someThing();//print outX and someX//таким образом к локальному классу есть доступ
     }
 
+#EXCEPTIONS
+
+try{//блок кода с ошибкой
+    int a = 0;
+    int b = 5;
+    sout(b/a); //первое исключение
+
+
+    int[] arr = {3, 5, 6};
+    sout("exception")
+    arr[99] = 67;//до данного исключения не дойдет так как будет поймано первое
+}catch (ArithmeticException e){//поимка типа исключения ArithmeticException
+    sout(e.getMessage());//show exception
+}catch (ArrayIndexOutOfBoundsException e){//поимка типа исключения ArrayIndexOutOfBoundsException
+    sout(e.getMessage());//show exception
+}catch (ArrayIndexOutOfBoundsException | ArithmeticException e){//вариант записи сразу нескольких исключений
+    sout(e.getMessage())
+    e.printStackTrace(); //вывод трасировки ошибки в консоль
+
+
+
+
+#throw //перекидывание исключений
+try {
+
+    try{
+        int[] arr = {3, 5, 6};
+    sout("exception")
+    arr[99] = 67;
+    }catch (ArrayIndexOutOfBoundsException e){
+    sout(внутреннее exception);
+    throw e; //генерирует исключение, тем самым показывая его внешнему try catch
+
+}}catch (ArrayIndexOutOfBoundsException e){
+    sout(внешнее exception);
+//будет выведено: внутреннее exception\n внешнее exception
+
+
+
+throw new ArithmeticException("новое exception");//создание нового exception
+
+
+
+public static int mySqrt(int x){
+    if (x>=0){
+        return x/2;
+    }
+    throw new ArithmeticException("Корень из отрицательного числа" + x)
+}
+
+
+#finally
+
+try{
+    FileInputStream fis = new FileInputStream("1.txt");//если эту строку напечатать без try catch то будет ругаться и предлагать Alt+Enter где можно выбрать try catch
+}catch (FileNotFoundException e){
+    e.printStackTrace();
+}finally{//данный блок выполняется в любом случаи даже если происходит необработанное исключение
+    sout("строка которая выведется в любом случае")
+}
+
+
+#проброска сигнатуры метода
+
+    try{
+        someThink("2.txt");
+    } catch (FileNotFoundException e) {
+        e.printStackTrace
+    }
+
+public static void someThink(String fileName) throw FileNotFoundException {
+    FileInputStream fis = new FileInputStream(fileName);//если эту строку напечатать без throw то будет ругаться и предлагать Alt+Enter где можно выбрать throw
+}
+
+
+#создание своего класса exception
+
+public class FactorialException extends Exception {
+    private int number;
+    public int getNumber(){
+        return number;
+    }
+    public FactorialException(String message, int number) {//при выборе конструктора можно выбрать также передачу Exception e
+        super(message);
+        this.number = message;
+    }
+}
+
+public class Main{
+    psvm(){
+        try{
+            fact(5);//если эту строку напечатать без try catch то будет ругаться и предлагать Alt+Enter где можно выбрать try catch так как в методе есть throw c exception
+        }catch(FactorialException e){
+            sout(e.getNumber)//также можем выводить параметры 
+            e.printStackTrace
+        }
+
+
+    }
+    public static int fact(int n){  
+        if(n < 1){
+            throw new FactorialException("Значение меньше нуля")
+        }
+        int f = 1;
+        for (int i = 1; i< n; i++){
+            f*=i;
+        }
+        return f;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #COLLECTOIONS
 
 #ARRAYLIST //по простому
