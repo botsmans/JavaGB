@@ -24,7 +24,7 @@ F12 Вернуть предыдущее окно инструмента
 Esc Переход к редактору
 
 
-JDK=JRE+библиотеки - Java Developer Kit (для компиляции)
+JDK=JRE+библиотеки - Java Developer Kit (для компиляции)  ]]]]]]] 
 JRE - Java Runtime Environment Набор инструментов для запуска Java-программ, включая виртуальную машину
 JVM - Java Virtual Machine
 
@@ -260,10 +260,48 @@ String s = sc.next(); //или даже nextLine(), без разницы
 #STRINGBUFFET //для нескольких потоков
 //Класс String представляет собой неизменяемые последовательности символов постоянной длины и частое использование объектов класса занимают много места в памяти. Класс StringBuffer представляет расширяемые и доступные для изменений последовательности символов, позволяя вставлять символы и подстроки в существующую строку и в любом месте. Данный класс гораздо экономичнее в плане потребления памяти и настоятельно рекомендуется к использованию.
 
+#ОБОЛОЧКИ ТИПОВ
+byte c;
+Byte c1;
+short s;
+Short s1;
+int a = 5;
+Integer b = 5; //оболочка типа //примитивный тип int преобразуется в объект типа Integer
+//что плохо сказывается на производительности
+long l;
+Long l1;
+char ch;
+Character ch1;
+float f;
+Float f1;
+double d;
+Double d1;
+boolean booll;
+Boolean bool;
+
+public class Main { // пригождается во время перевода из строк в приметивные типы
+    public static void main(String[] args) {
+        String s = "1000";
+        String s2 = "2000";
+        String bool = "true";
+        int a = Integer.parseInt(s);
+        int b = Integer.parseInt(s2);
+        System.out.println(a + b);
+        boolean bool1 = Boolean.parseBoolean(bool); //всё что не true преобразуется в false
+        System.out.println(bool1);
+
+    }
+}
+#substring
+String s = "It is Igor. He is developer.";
+String name = s.substring(6, 10); //~Igor
+
+
 #OBJECT
 Human friend;
 Human mom = new Human();
-Car car = null; 
+Car car = null;
+
 
 #SCANNER
 import java.util.Scanner;
@@ -1444,7 +1482,7 @@ try{
         e.printStackTrace
     }
 
-public static void someThink(String fileName) throw FileNotFoundException {
+public static void someThink(String fileName) throws FileNotFoundException {
     FileInputStream fis = new FileInputStream(fileName);//если эту строку напечатать без throw то будет ругаться и предлагать Alt+Enter где можно выбрать throw
 }
 
@@ -1492,10 +1530,10 @@ public class Main{
 
 
 
+   
 
 
-
-
+     
 
 
 
@@ -1510,13 +1548,16 @@ public class Main{
 
 #COLLECTOIONS
 
+//у всех коллекций toString переопределен
+//поддерживают итератор
+
 #ARRAYLIST //по простому
 //Для создания простых списков применяется интерфейс List, который расширяет функцональность интерфейса Collection
 //create ArrayList
 import java.util.ArrayList;
 class Example {
     public static void main(String[] args){
-        ArrayList<String> list = new ArrayList<>();
+        ArrayList<String> list = new ArrayList<>(); // в <> можно указывать что принимать, что бы не принять лишнего
     }
 }
 
@@ -1527,10 +1568,15 @@ sp.set(index, obj)//    присваивает значение объекта o
 sp.indexOf(obj)//   возвращает индекс первого вхождения объекта obj в список. Если объект не найден, то возвращается -1
 sp.lastIndexOf(obj)//   возвращает индекс последнего вхождения объекта obj в список. Если объект не найден, то возвращается -1
 sp.remove(index)//  удаляет объект из списка по индексу index, возвращая при этом удаленный объект
+sp.remove((String) obj)//  удаляет первый объект из списка поиском объекту, возвращая при этом удаленный объект
 sp.toArray()//  превращает список в массив
 sp.contains(obj)//  проверяет, есть ли элемент obj в списке sp. Возвращает значение boolean
 sp.size()// находит размер списка (количество элементов)
 sp.subList( start, end)//получает набор элементов, которые находятся в списке между индексами start и end
+sp.ensureCapacity(2000);//по умолчанию ArrayList add массив с capacity 10, так можно задать за ранее большой
+sp.trimToSixe();//убирает лишнюю capacity
+
+ArrayList<String> al2 = new ArrayList<>(al);//al2 вберет в себя весь al
 
 people.add("Sam");
 people.add(1, "Bob"); // добавляем элемент по индексу 1
@@ -1543,6 +1589,13 @@ for(String person : people)//поскольку класс ArrayList реали�
 
 //Большая часть коллекций, таких как список работает только с ссылочными типами данных. не Int, а Integer
 
+#перевод arrayList to array
+List<Integer> list = new ArrayList<>();
+list.add(1);
+list.add(2);
+list.add(3);
+Integer[] arr = new Integer[list.size()];
+list.toArray(arr);
 
 
 public class MyArrayList {//посложнее
@@ -1615,83 +1668,72 @@ public class Main {
         }
     }
 }
-#Оболочки типов
-byte c;
-Byte c1;
-short s;
-Short s1;
-int a = 5;
-Integer b = 5; //оболочка типа //примитивный тип int преобразуется в объект типа Integer
-//что плохо сказывается на производительности
-long l;
-Long l1;
-char ch;
-Character ch1;
-float f;
-Float f1;
-double d;
-Double d1;
-boolean booll;
-Boolean bool;
 
-public class Main { // пригождается во время перевода из строк в приметивные типы
-    public static void main(String[] args) {
-        String s = "1000";
-        String s2 = "2000";
-        String bool = "true";
-        int a = Integer.parseInt(s);
-        int b = Integer.parseInt(s2);
-        System.out.println(a + b);
-        boolean bool1 = Boolean.parseBoolean(bool); //всё что не true преобразуется в false
-        System.out.println(bool1);
 
+#ИТЕРАТОР ITERATOR
+
+Iterator<String> iter = al.iterator(); //al - какойто arrayList
+while (iter.hasNext()){
+    if (iter.next().equals("somethink")){
+        iter.remove();
     }
 }
-#substring
-String s = "It is Igor. He is developer.";
-String name = s.substring(6, 10); //~Igor
 
-#Collection ArrayList
-//если массив будет изменяться то всегда нужно использовать ArrayList
-public class Main {
-    public static void main(String[] args) {
-        ArrayList<String> employees = new ArrayList<>(); //<String> tipe of data which we want to use.
-        // во вторых скобках<> не обязательно дублировать
-        employees.add("Sergey");
-        employees.add("Dmitriy");
-        employees.add("Vitaliy");
-        employees.add("Aleksey");
-        employees.add("Ivan");
-        employees.remove(0);
-        employees.remove("Ivan");
-        employees.remove("Ivan");
-        for (int i =0; i < employees.size(); i++){
-            System.out.println(employees.get(i));//get - получение по индексу
-        }
-        for (String name: //in foreach
-             employees) {
-            System.out.println(name);
+#LISTERATOR
+//При работе с List мы можем использовать “расширенный” вариант итератора
+hasPrevious() - проверка есть ли элемент слева;
+previous() - переход на левый элемент и возврат ссылки на него;
+nextIndex() - получение индекса следующего элемента;
+previousIndex() - получение индекса предыдущего элемента;
+add() - добавить новый элемент на то место, на которое указывает итератор;
+set() - изменить элемент, на который указывает итератор.
 
-        }
-    }
-}
-public class Main {
-    public static void main(String[] args) {
-       ArrayList<Integer> employees = new ArrayList<>();//Integer//Можно передавать любой тип данных(Box)
-        for (int i = 0; i < 1000; i++) {
-            employees.add(i);
-        }
-        for (int i: employees
-             ) {
-            System.out.println(i);
-        }
-    }
-}
-#Collections HashSet
+#LINKEDLIST
+
+LinkedList<Integer> ll = new LinkedList<>();
+ll.add(3);//add(2, 66)//вставить перед 2-ым индексом
+ll.offer(8);//тоже самое
+ll.offerLast(8);
+ll.addLast(6);//тоже самое (для двухсвязной очереди)
+
+ll.offerFirst(8);//добавить элемент в начало строки
+ll.addFirst(8);//добавить элемент в начало строки
+
+ll.getFirst();//возвращает элемент, но выдает exception если элемента нет
+ll.peekFirst();//возвращает элемент, выдает Null если элемента нет
+
+ll.getLast();//возвращает элемент, но выдает exception если элемента нет
+ll.peekLast();//возвращает элемент, выдает Null если элемента нет
+ll.elemint();//возвращает элемент, но выдает exception если элемента нет
+ll.peek();//возвращает элемент, выдает Null если элемента нет
+
+ll.removeFirst();//возвращает первый элемент и удаляет его
+ll.pollFirst();//возвращает первый элемент и удаляет его
+
+ll.removeLast();//возвращает последний элемент и удаляет его
+ll.remove();//возвращает последний элемент и удаляет его
+ll.poll();//возвращает первый элемент и удаляет его
+ll.pollLast();//возвращает первый элемент и удаляет его
+
+
+Queue<Integer> queue = new LinkedList<>(ll);//очередь основана на linkedList, но в ней нужно пользоваться толь ко методами из очереди (poll, peek, pop...)
+
+PreorityQueue<Integer> pq = new PreorityQueue<>();//выдает по приоритету а не по первенству добавления 
+pq.add(5);
+pq.add(9);
+pq.add(1);
+sout(pq.poll());//1
+sout(pq.poll());//5
+sout(pq.poll());//9
+
+#COMPARATOR
+
+#HASHSET
+
 public class Main {
     public static void main(String[] args) {
         HashSet<String> names = new HashSet<>();//используется в том случаи когда в коллекции не должно быть повторяющихся значений
-        //аналогична словарю в python //нет индексов, перебор только foreach
+        //аналогична словарю в python //нет индексов, перебор только foreach //основан на вычислении hash у объекта
         names.add("Jon");
         names.add("lola");
         names.add("Stive");
@@ -1703,7 +1745,7 @@ public class Main {
         }
     }
 }
-#TreeSet Collection
+#TREESET
 public class Main {
     public static void main(String[] args) {
         TreeSet<String> names = new TreeSet<>();//тотже HashSet но хранит всё в алфавитном порядке
@@ -1719,30 +1761,20 @@ public class Main {
         }
     }
 
+#LINKEDHASHSET
+//тотже HashSet но сохраняет все в порядке добавления
 
+#MAP
+//не относится к коллекциям так как нет итератора//как словарь в питоне//при добавлении одинакового ключа, значения перезаписываются
+Map<String, Integer> map = new HashMap<>();//<Key, Value>
+map.put("Vaska", 5);//add element
+map.put("Murka", 7);
+map.put("Rizik", 9);
+hm.getOrDefault(id, "Default");//если такого ключа нет присвоит "Default"
 
-
-
-#TRY CATCH FINALLY EXCEPTIONS
-public class Main {
-    public static void main(String[] args) {
-        int a = 0;
-        try{//сюда помещаем код который хотим прверять на ошибки
-            int b = 7 / a;
-            String s = "sdlgkj";//отставшийся код игнорируется при первой пойманой ошибке
-            int i = Integer.parseInt(s);
-        } catch (ArithmeticException e) {//super classes should not be more early than subclasses
-            //because subclasses don't be work
-            System.out.println("you cannot divided by zero");//сюда пишем то что выведется в случаи ошибки
-        } catch (NumberFormatException e1){//сработает если в первой строке не будет найдет exception
-            System.out.println("you can parse only digit and minus");
-        } catch (Exception e2){//у всех exceptions есть родительский класс Exception, it catch all exceptions
-
-        } finally {//code block which will be executed(выполнен) in any case
-            System.out.println("we are in finally block");
-        }
-        System.out.println("hello");
-    }
+Set<Map.Entry<String, Integer>> setM = map.entrySet();//так как итератора в мапе нет и быват нужно пройти по всем элементам, то можно перобразовать в set
+for (Map.Entry<String, Integer>, Integer es:setM){
+    sout(es.getKey()+"="+es.getValue());
 }
 
 #OBJECT
