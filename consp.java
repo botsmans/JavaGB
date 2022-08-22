@@ -602,6 +602,7 @@ public class Main{
 
 
 
+
 #METHOD with param
 
 public class Test {
@@ -1811,6 +1812,107 @@ sout(random)
 int result1 = (int) (Math.random()*6 +1)//1-6
 
 #МНОГОПОТОЧНОСТЬ
+#Первый способ создания многопоточности создать класс наследуемый от Thread
+public class MyThread extends Thread{
+    public MyThread(String name) {
+        super(name);
+    }
+    @Override
+    public void run(){
+        for (int i = 0; i < 10; i++){
+            System.out.println(getName()+" "+ i);
+        }
+    }
+}
+
+public class Main{
+    public static void main(String[] args) {
+        MyThread t1 = new MyThread("t1")
+        MyThread t2 = new MyThread("t2")
+
+//        t1.start();//потоки запускаются параллельно
+//        t2.start();
+
+        t1.run();//потоки запускаются последовательно
+        t2.run();
+    }
+}
+
+#Второй способ создания многопоточности создать класс наследуемый от интерфейса Runnabl
+#второй способ более предпочтителен так как при наследовании от класса больше не от чего наследоваться не получиться
+public class MyRunnable implements Runnable{
+    private String name;
+
+    public MyRunnable(
+    this.name = name;
+)
+    @Override
+    public void run(){
+
+    }
+
+    public String getName(){
+        public void run(){
+            for (int i = 0; i < 10; i++){
+                System.out.println(getName()+" "+ i);
+            }
+        }
+    }
+}
+public class Main{
+    public static void main(String[] args) {
+        Thread t1 = new Thread(new MyRunnable("t1"));
+        Thread t2 = new Thread(new MyRunnable("t2"));
+
+        t1.start();//потоки запускаются параллельно
+        t2.start();
+        t1.run();//потоки запускаются последовательно
+        t2.run();
+
+    }
+}
+
+#Третий способ через анонимные классы
+public class Main{
+    public static void main(String[] args) {
+        Thread t1 = new Thread(new Runnable{
+            @Override
+            public voi run(){
+                for (int i = 0; i < 10; i++){
+                    System.out.println(i);
+                }
+            }
+        });
+        Thread t2 = new Thread(new Runnable{
+            @Override
+            public voi run(){
+                for (int i = 0; i < 10; i++){
+                    System.out.println(i);
+                }
+            }
+        });
+    }
+}
+
+#Четвертый способ через лямда выражения
+#лямда выражения можно применять только если у интерфейса определен только один метод, то его прожно переписать через люмду
+public class Main{
+    public static void main(String[] args) {
+        Thread t1 - new Thread(()->{ // ()- метод у которого нет аргументов // -> - заменить // {тело метода Run}
+            for (int i = 0; i < 10; i++){
+                System.out.println(i);
+            });
+            Thread t2 - new Thread(()->{
+                for (int i = 0; i < 10; i++){
+                    System.out.println(i);
+                });
+                t1.start();//потоки запускаются параллельно
+                t2.start();
+                t1.run();//потоки запускаются последовательно
+                t2.run();
+            }
+        }
+
 //Thread is class
 //Runnable is interface
 public class RunnableTimer implements Runnable {
